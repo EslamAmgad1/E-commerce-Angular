@@ -4,6 +4,7 @@ import { NavBarComponent } from './core/nav-bar/nav-bar.component';
 import { ShopComponent } from './shop/shop/shop.component';
 import { SectionHeaderComponent } from './core/section-header/section-header.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { BasketService } from './basket/basket.service';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -13,7 +14,13 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 })
 export class AppComponent implements OnInit {
   title = 'E-commerceApp';
-  constructor(){}
+  constructor(private basketService: BasketService){}
   ngOnInit(): void {
+    this.loadBasket();
   }
+  loadBasket() {
+    const basketId = localStorage.getItem('basket_id');
+    if (basketId) this.basketService.getBasket(basketId);
+  }
+
 }
