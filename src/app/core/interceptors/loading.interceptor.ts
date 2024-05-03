@@ -3,11 +3,16 @@ import { inject } from '@angular/core';
 import { delay, finalize } from 'rxjs';
 import { BusyService } from '../services/busy.service';
 
-export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
+export const loadingInterceptor: HttpInterceptorFn = (request, next) => {
   const busyService = inject(BusyService);
+  if (request.url.includes('emailExists')) {
+    return next(request);
+  }
+
   busyService.busy();
-  return next(req).pipe(
-    delay(1000),
+  return next(request).pipe(
+    delay(500),
     finalize(() => busyService.idle())
-  );
-};
+  )
+}
+
