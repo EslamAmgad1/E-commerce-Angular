@@ -14,8 +14,14 @@ export const routes: Routes = [
   {
     path: 'checkout',
     canActivate: [authGuard],
-    loadChildren: () => import('./checkout/checkout.routes').then(r => r.Checkoutroutes )},
+    loadChildren: () => import('./checkout/checkout.routes').then(r => r.Checkoutroutes )
+  },
   {path: 'account', loadChildren: () => import('./account/account.routes').then(r => r.Accountroutes )},
-  {path: 'basket' , loadComponent : () => import('./basket/basket.component').then(c=>c.BasketComponent) },
+  {
+    path: 'basket' ,
+    canActivate: [authGuard],
+    loadComponent : () => import('./basket/basket.component').then(c=>c.BasketComponent)
+  },
+  {path:'orders', loadChildren: () => import('./orders/orders.routes').then(r => r.Ordersroutes)},
   {path: '**' , redirectTo:'' , pathMatch:'full' }
 ];
